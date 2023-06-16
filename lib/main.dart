@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import './questao.dart';
+import './resposta.dart';
 
 // Primeira coisa que é executada no app
 void main()
@@ -16,19 +17,41 @@ class _PerguntasAppState extends State<MyApp>
     // aciona essa função que muda a pergunta selecionada
     void _responder()
     {
-      _perguntaSelecionada++;
+      setState(() {
+        _perguntaSelecionada++;
+      });
+      print("Foi clicado em uma resposta");
+
       print(_perguntaSelecionada);
     }
 
     @override
     Widget build(BuildContext context) {
 
-      // Lista de perguntas
-      final List<String> perguntas =
+      // Lista de perguntas do tipo Map
+      // A String representa as perguntas, que são apenas texto
+      // o Object representa uma lista
+      final List<Map> perguntas =
       [
-        'Qual a sua cor favorita?',
-        'Qual o seu animal favorito?',
+        {
+          // chave e valor
+          'texto': 'Qual a sua cor favorita?',
+          //respostas
+          'respostas': ['Vermelho','Azul','Amarelo','Verde']
+        },
+        {
+          //chave e valor
+          'texto': 'Qual o seu animal favorito?',
+          'respostas': ['Leão', 'Capivara', 'Rato', 'Passarinho']
+        },
+        {
+          //chave e valor
+          'texto': 'Qual seu carro favorito?',
+          'respostas': ['Palio', 'Uno', 'Kadett', 'Fusca']
+        }
+
       ];
+
 
       // Padrão de estrutura do Flutter
       return MaterialApp(
@@ -39,19 +62,10 @@ class _PerguntasAppState extends State<MyApp>
           // Column server para que seja possível adicionar mais de um widget dentro de outro
           body: Column(
             children: <Widget>[
-              Questao(perguntas[_perguntaSelecionada]),
-              ElevatedButton(
-                child: Text('Resposta 1'),
-                onPressed: _responder,
-              ),
-              ElevatedButton(
-                child: Text('Resposta 2'),
-                onPressed: _responder,
-              ),
-              ElevatedButton(
-                child: Text('Resposta 3'),
-                onPressed: _responder,
-              ),
+              Questao(perguntas[_perguntaSelecionada]['texto']),
+              Resposta('Resposta 1', _responder), // Ao clicar em uma resposta, a funçao responder é passada como parâmetro
+              Resposta('Resposta 2', _responder),
+              Resposta('Resposta 3', _responder),
             ],
           ),
         ),
